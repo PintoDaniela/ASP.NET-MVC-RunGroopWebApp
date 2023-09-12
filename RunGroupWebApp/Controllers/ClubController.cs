@@ -3,17 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using RunGroupWebApp.Data;
 using RunGroupWebApp.Interfaces;
 using RunGroupWebApp.Models;
+using RunGroupWebApp.ViewModels;
 
 namespace RunGroupWebApp.Controllers
 {
     public class ClubController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        
         private readonly IClubRepository _clubRepository;
-        public ClubController(ApplicationDbContext context, IClubRepository clubRepository) 
-        {
-            _context = context;
+        private readonly IPhotoService _photoService;
+        public ClubController(IClubRepository clubRepository, IPhotoService photoService ) 
+        {           
             _clubRepository = clubRepository;
+            _photoService = photoService;
         }
         public async Task<IActionResult> Index()
         {
@@ -23,9 +25,7 @@ namespace RunGroupWebApp.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var club = await _clubRepository.GetByIdAsync(id);
-            /*
-            var club  = _context.Clubs.Include(a => a.Address).FirstOrDefault(c => c.Id == id);//Address mast be included in order to avoid object references errors.
-            */
+            
             if (club == null)
             {
                 return NotFound();
@@ -39,15 +39,34 @@ namespace RunGroupWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Club club)
+        public async Task<IActionResult> Create(CreateClubViewModel clubVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return(View(club));
-            }
-            _clubRepository.AddClub(club);
+                var result = await _photoService.AddPhotoAsync(clubVM.Image);
 
-            return RedirectToAction("Index");
+                var club = new Club
+                {
+                    Title = clubVM.Title,
+                    Description = clubVM.Description,
+                    Image = result.Url.ToString(),
+                    Address = new Address
+                    {
+                        City = clubVM.Address.City,
+                        State = clubVM.Address.State,
+                        Street = clubVM.Address.Street,
+                    }
+                };
+                _clubRepository.AddClub(club);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "The club creation has failed.");
+            }
+            return View(clubVM);           
+
+            
         }
     }
 }
