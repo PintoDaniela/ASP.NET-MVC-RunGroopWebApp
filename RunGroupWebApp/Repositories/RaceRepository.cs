@@ -35,6 +35,11 @@ namespace RunGroupWebApp.Repositories
             return await _context.Races.Include(r => r.Address).FirstOrDefaultAsync(c => c.Id == id);//Address mast be included in order to avoid object references errors.
         }
 
+        public async Task<Race> GetByIdAsyncNoTracking(int id)
+        {
+            return await _context.Races.Include(r => r.Address).AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);//Address mast be included in order to avoid object references errors.
+        }
+
         public async Task<IEnumerable<Race>> GetRacesByCity(string city)
         {
             return await _context.Races.Where(c => c.Address.City.Contains(city)).ToListAsync();
@@ -52,5 +57,7 @@ namespace RunGroupWebApp.Repositories
             return Save();
 
         }
+
+        
     }
 }
