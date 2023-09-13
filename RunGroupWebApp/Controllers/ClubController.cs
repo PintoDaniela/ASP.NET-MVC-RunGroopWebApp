@@ -95,6 +95,7 @@ namespace RunGroupWebApp.Controllers
                 ModelState.AddModelError("", "Failed to edit club.");
                 return View("Error");
             }
+            //I must use a method that uses the property "AsNoTracking" in order to avoid errors, because i already have an instance of the DB club entity with the clubVM object.
             var userClub = await _clubRepository.GetByIdAsyncNoTracking(id);
 
             if (userClub != null)
@@ -125,8 +126,29 @@ namespace RunGroupWebApp.Controllers
             else
             {
                 return View(clubVM);
+            }            
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var clubDetails =  await _clubRepository.GetByIdAsync(id);
+            if (clubDetails == null)
+            {
+                return View("Error");
             }
-            
+            return View(clubDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteClub(int id)
+        {
+            var clubDetails = await _clubRepository.GetByIdAsync(id);
+            if (clubDetails == null)
+            {
+                return View("Error");
+            }
+            _clubRepository.DeleteClub(clubDetails);
+            return RedirectToAction("Index");
         }
 
     }
