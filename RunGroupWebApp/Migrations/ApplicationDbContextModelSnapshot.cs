@@ -177,7 +177,7 @@ namespace RunGroupWebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("RunGroupWebApp.Models.AppUser", b =>
@@ -288,7 +288,7 @@ namespace RunGroupWebApp.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Clubs");
+                    b.ToTable("Clubs", (string)null);
                 });
 
             modelBuilder.Entity("RunGroupWebApp.Models.Race", b =>
@@ -344,7 +344,7 @@ namespace RunGroupWebApp.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Races");
+                    b.ToTable("Races", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

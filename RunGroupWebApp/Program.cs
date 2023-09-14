@@ -53,6 +53,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//Use Authentication in oder to manage the user who has loged in.
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
