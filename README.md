@@ -1,4 +1,6 @@
-# RunGroupWebApp
+# RunGroopWebApp
 MVC Project in progress...
-![image](https://github.com/PintoDaniela/RunGroupWebApp/assets/102257752/9c25f706-fcc5-4a06-96a0-fdc45fc9c82a)
+
+![image](https://github.com/PintoDaniela/RunGroopWebApp/assets/102257752/2a202757-b7ed-4220-b247-334e2190b3df)
+
 
