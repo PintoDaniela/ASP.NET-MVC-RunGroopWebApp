@@ -38,10 +38,13 @@ namespace RunGroopWebApp.Controllers
 
         public IActionResult Create()
         {
-            //Getting the user ID from the hidden input form.
+            //Getting the user ID by using an extension Class that gets the ID of the logged in user.
             var currentUserID = _httpContextAccessor.HttpContext.User.GetUserId();
 
+            //Assign the user ID value to the createClubViewModel object, to have it then in the hidden input of the form form.
             var createClubViewModel = new CreateClubViewModel { AppUserId = currentUserID };
+
+            //Once I have my AppUserId set, I go to the view passing the createClubViewModel object.
             return View(createClubViewModel);
         }
 
@@ -57,6 +60,7 @@ namespace RunGroopWebApp.Controllers
                     Title = clubVM.Title,
                     Description = clubVM.Description,
                     Image = result.Url.ToString(),
+                    AppUserId = clubVM.AppUserId,
                     Address = new Address
                     {
                         City = clubVM.Address.City,
