@@ -15,7 +15,14 @@
                             <tr class="bg-white">
                                 <th scope="row">
                                     <div class="media align-items-center">
-                                        <img alt="Image profile avatar" src="@user.ProfileImageUrl" class="avatar">
+                                        @if (!string.IsNullOrEmpty(@user.ProfileImageUrl))
+                                        {
+                                            <img alt="Image profile avatar" src="@user.ProfileImageUrl" class="avatar" width="25%" height="130" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1177/1177568.png'">
+                                        }
+                                        else
+                                        {
+                                            <img alt="Image profile avatar" src="https://cdn-icons-png.flaticon.com/512/1177/1177568.png" class="avatar" width="25%" height="130">
+                                        }
                                         <div class="media-body">
                                             <span class="h6 mb-0">@user.UserName</span>
                                         </div>
